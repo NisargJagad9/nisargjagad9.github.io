@@ -16,6 +16,9 @@
         --accent-2: #169c46;
         --border: rgba(255, 255, 255, 0.07);
         --soft-glow: rgba(29, 185, 84, 0.3);
+        --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+        --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
       }
 
       * {
@@ -30,6 +33,11 @@
           linear-gradient(180deg, #1b1b1b 0%, var(--bg) 25%, var(--bg) 100%);
         color: var(--text);
         font-family: Arial, Helvetica, sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      * {
+        -webkit-tap-highlight-color: transparent;
       }
 
       body {
@@ -55,7 +63,10 @@
       .sidebar {
         background: rgba(0, 0, 0, 0.38);
         padding: 28px 18px;
-        border-right: 1px solid var(--border);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset -1px 0 0 rgba(255,255,255,0.02);
+        overflow: hidden;
+        min-width: 0;
       }
 
       .brand {
@@ -66,6 +77,7 @@
         font-size: 2rem;
         margin-bottom: 28px;
         letter-spacing: -0.06em;
+        animation: popIn 0.5s ease both;
       }
 
       .brand-mark {
@@ -88,6 +100,7 @@
         display: grid;
         gap: 10px;
         margin-bottom: 32px;
+        animation: popIn 0.6s ease both;
       }
 
       .nav-item {
@@ -99,13 +112,14 @@
         border-radius: 10px;
         font-size: 1rem;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: transform 320ms var(--ease-soft), background 260ms var(--ease-soft), color 260ms var(--ease-soft), box-shadow 260ms var(--ease-soft);
+        will-change: transform, background, box-shadow;
       }
 
       .nav-item:hover {
         color: var(--text);
         background: rgba(255, 255, 255, 0.04);
-        transform: translateX(4px);
+        transform: translateX(4px) scale(1.01);
       }
 
       .nav-item.active {
@@ -120,6 +134,7 @@
         align-items: center;
         justify-content: space-between;
         margin: 26px 4px 14px;
+        animation: popIn 0.7s ease both;
       }
 
       .playlist-header h3 {
@@ -138,28 +153,33 @@
         padding: 8px 12px;
         cursor: pointer;
         font-size: 0.85rem;
-        transition: all 0.25s ease;
+        transition: transform 360ms var(--ease-bounce), background 300ms var(--ease-smooth), border-color 300ms var(--ease-smooth), box-shadow 300ms var(--ease-smooth);
+        will-change: transform, box-shadow;
       }
 
       .shuffle-btn:hover {
         border-color: rgba(29, 185, 84, 0.7);
         background: rgba(29, 185, 84, 0.14);
-        transform: translateY(-1px);
+        transform: translateY(-1px) scale(1.02);
+        box-shadow: 0 8px 20px rgba(29, 185, 84, 0.12);
       }
 
       .playlist {
         list-style: none;
         margin: 0;
-        padding: 0;
+        padding: 10px 6px 0;
         display: grid;
         gap: 8px;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        border-bottom: 1px solid rgba(255,255,255,0.04);
       }
 
       .song-pill {
         width: 100%;
-        background: transparent;
+        max-width: 100%;
+        background: rgba(255,255,255,0.01);
         color: var(--text);
-        border: 1px solid transparent;
+        border: 1px solid rgba(255,255,255,0.03);
         border-radius: 12px;
         padding: 12px 12px;
         display: flex;
@@ -168,32 +188,44 @@
         gap: 10px;
         cursor: pointer;
         text-align: left;
-        transition: all 0.25s ease;
+        transition: transform 320ms var(--ease-soft), background 260ms var(--ease-smooth), border-color 260ms var(--ease-smooth), box-shadow 260ms var(--ease-smooth), opacity 260ms var(--ease-smooth);
+        overflow: hidden;
+        min-width: 0;
+        animation: popIn 0.5s ease both;
+        will-change: transform, box-shadow;
       }
 
       .song-pill:hover {
         background: rgba(255,255,255,0.05);
-        border-color: rgba(255,255,255,0.06);
-        transform: translateX(2px);
+        border-color: rgba(255,255,255,0.08);
+        transform: translateX(2px) scale(1.01);
+      }
+
+      .song-pill:active {
+        transform: scale(0.985);
       }
 
       .song-pill.active {
         background: rgba(29, 185, 84, 0.12);
         border-color: rgba(29, 185, 84, 0.3);
-        box-shadow: 0 0 0 1px rgba(29, 185, 84, 0.08);
+        box-shadow: 0 0 0 1px rgba(29, 185, 84, 0.08), inset 0 0 0 1px rgba(255,255,255,0.02);
       }
 
       .song-meta {
         min-width: 0;
+        flex: 1 1 auto;
+        overflow: hidden;
       }
 
       .song-number {
         opacity: 0.7;
         font-size: 0.8rem;
         min-width: 22px;
+        flex-shrink: 0;
       }
 
       .song-title {
+        display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -243,7 +275,9 @@
         box-shadow: 0 18px 60px rgba(0,0,0,0.45);
         background: #2f2f2f;
         position: relative;
-        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        transition: transform 420ms var(--ease-smooth), box-shadow 420ms var(--ease-smooth), filter 420ms var(--ease-smooth);
+        animation: popIn 0.7s ease both;
+        will-change: transform, box-shadow, filter;
       }
 
       .cover-wrap::after {
@@ -255,8 +289,9 @@
       }
 
       .cover-wrap:hover {
-        transform: translateY(-4px) scale(1.01);
-        box-shadow: 0 20px 70px rgba(29, 185, 84, 0.22);
+        transform: translateY(-6px) scale(1.015);
+        box-shadow: 0 24px 80px rgba(29, 185, 84, 0.2);
+        filter: saturate(1.08) brightness(1.04);
       }
 
       .cover-wrap img {
@@ -264,11 +299,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease;
+        transition: transform 520ms var(--ease-smooth), filter 520ms var(--ease-smooth);
       }
 
       .cover-wrap:hover img {
-        transform: scale(1.04);
+        transform: scale(1.05);
       }
 
       .eyebrow {
@@ -307,12 +342,18 @@
         width: 46px;
         height: 46px;
         font-size: 1.2rem;
-        transition: all 0.25s ease;
+        transition: transform 340ms var(--ease-bounce), background 300ms var(--ease-smooth), box-shadow 300ms var(--ease-smooth), filter 300ms var(--ease-smooth);
+        animation: popIn 0.5s ease both;
+        will-change: transform, box-shadow;
       }
 
       .control-btn:hover {
         background: rgba(255,255,255,0.12);
-        transform: translateY(-2px);
+        transform: translateY(-2px) scale(1.04);
+      }
+
+      .control-btn:active {
+        transform: scale(0.96);
       }
 
       .control-btn.primary {
@@ -326,7 +367,7 @@
 
       .control-btn.primary:hover {
         background: #1ed760;
-        transform: translateY(-2px) scale(1.04);
+        transform: translateY(-2px) scale(1.05);
       }
 
       @keyframes pulse {
@@ -335,6 +376,17 @@
         }
         50% {
           box-shadow: 0 0 30px rgba(29,185,84,0.55);
+        }
+      }
+
+      @keyframes popIn {
+        0% {
+          opacity: 0;
+          transform: translateY(8px) scale(0.985);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
         }
       }
 
@@ -395,12 +447,13 @@
         border-radius: 12px;
         cursor: pointer;
         color: var(--text);
-        transition: all 0.25s ease;
+        transition: transform 320ms var(--ease-soft), background 260ms var(--ease-smooth), box-shadow 260ms var(--ease-smooth), opacity 260ms var(--ease-smooth);
+        will-change: transform, box-shadow;
       }
 
       .song-row:hover {
         background: rgba(255,255,255,0.04);
-        transform: translateX(4px);
+        transform: translateX(4px) scale(1.002);
       }
 
       .song-row.active {
@@ -513,15 +566,15 @@
 
     <script>
       const songs = [
-        { title: 'Abhi Na Jao Chodd Ke', file: 'Abhi Na Jao Chodd Ke.m4a', cover: 'images/1.jpg' },
-        { title: 'Bade Acche Lagte Hai', file: 'Bade Acche Lagte Hai.m4a', cover: 'images/2.jpg' },
-        { title: 'Can’t Help Falling in Love With You', file: 'Can’t Help Falling in Love With You.m4a', cover: 'images/3.jpg' },
-        { title: 'Hothon Se Chhu Lo Tum', file: 'Hothon Se Chhu Lo Tum.m4a', cover: 'images/4.jpg' },
-        { title: 'Just the Two of Us', file: 'Just the Two of Us.m4a', cover: 'images/5.jpg' },
-        { title: 'Pal Pal Dil Ke Pass', file: 'Pal Pal Dil Ke Pass.m4a', cover: 'images/8.jpg' },
-        { title: 'Put Your Head on My Shoulder', file: 'Put Your Head on My Shoulder.m4a', cover: 'images/7.jpg' },
-        { title: 'Sunflower', file: 'Sunflower.m4a', cover: 'images/6.jpg' },
-        { title: 'Until I found Her', file: 'Until I found Her.m4a', cover: 'images/9.jpg' }
+        { title: 'Abhi Na Jao Chodd Ke', file: 'Abhi Na Jao Chodd Ke.m4a', cover: 'images/1.jpg', duration: null },
+        { title: 'Bade Acche Lagte Hai', file: 'Bade Acche Lagte Hai.m4a', cover: 'images/2.jpg', duration: null },
+        { title: 'Can’t Help Falling in Love With You', file: 'Can’t Help Falling in Love With You.m4a', cover: 'images/3.jpg', duration: null },
+        { title: 'Hothon Se Chhu Lo Tum', file: 'Hothon Se Chhu Lo Tum.m4a', cover: 'images/4.jpg', duration: null },
+        { title: 'Just the Two of Us', file: 'Just the Two of Us.m4a', cover: 'images/5.jpg', duration: null },
+        { title: 'Pal Pal Dil Ke Pass', file: 'Pal Pal Dil Ke Pass.m4a', cover: 'images/8.jpg', duration: null },
+        { title: 'Put Your Head on My Shoulder', file: 'Put Your Head on My Shoulder.m4a', cover: 'images/7.jpg', duration: null },
+        { title: 'Sunflower', file: 'Sunflower.m4a', cover: 'images/6.jpg', duration: null },
+        { title: 'Until I found Her', file: 'Until I found Her.m4a', cover: 'images/9.jpg', duration: null }
       ];
 
       const audio = document.getElementById('audioPlayer');
@@ -554,6 +607,19 @@
         audio.src = 'songs/' + encodeURIComponent(song.file);
       }
 
+      function loadSongDurations() {
+        songs.forEach((song, index) => {
+          const probe = new Audio();
+          probe.preload = 'metadata';
+          probe.src = 'songs/' + encodeURIComponent(song.file);
+          probe.addEventListener('loadedmetadata', () => {
+            songs[index].duration = Number.isFinite(probe.duration) ? probe.duration : null;
+            renderPlaylist();
+            renderSongList();
+          }, { once: true });
+        });
+      }
+
       function renderPlaylist() {
         playlist.innerHTML = '';
         songs.forEach((song, index) => {
@@ -561,12 +627,13 @@
           const button = document.createElement('button');
           button.type = 'button';
           button.className = 'song-pill' + (index === currentIndex ? ' active' : '');
+          const durationText = Number.isFinite(song.duration) ? formatTime(song.duration) : '…';
           button.innerHTML = `
             <span class="song-number">${index + 1}</span>
             <span class="song-meta">
               <span class="song-title">${song.title}</span>
             </span>
-            <span class="song-duration">${index === currentIndex ? 'Now' : ''}</span>
+            <span class="song-duration">${index === currentIndex ? 'Now' : durationText}</span>
           `;
           button.addEventListener('click', () => selectSong(index, true));
           li.appendChild(button);
@@ -579,11 +646,12 @@
         songs.forEach((song, index) => {
           const row = document.createElement('li');
           row.className = 'song-row' + (index === currentIndex ? ' active' : '');
+          const durationText = Number.isFinite(song.duration) ? formatTime(song.duration) : '…';
           row.innerHTML = `
             <span class="track-index">${index + 1}</span>
             <span class="track-title">${song.title}</span>
             <span class="track-album">Favorites</span>
-            <span class="track-duration">3:30</span>
+            <span class="track-duration">${durationText}</span>
           `;
           row.addEventListener('click', () => selectSong(index, true));
           songList.appendChild(row);
@@ -656,7 +724,13 @@
       audio.volume = 0.85;
 
       audio.addEventListener('loadedmetadata', () => {
+        const currentSong = songs[currentIndex];
+        if (currentSong) {
+          currentSong.duration = audio.duration;
+        }
         totalTimeEl.textContent = formatTime(audio.duration);
+        renderPlaylist();
+        renderSongList();
       });
 
       audio.addEventListener('timeupdate', () => {
@@ -709,6 +783,7 @@
       });
 
       setAudioSource(currentIndex);
+      loadSongDurations();
       updateInfo();
       updatePlayButton();
     </script>
